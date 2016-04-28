@@ -1,4 +1,4 @@
-# StatusPage.io Test
+# ImageGetter
 
 Test App is available at: https://frozen-gorge-36844.herokuapp.com/
 
