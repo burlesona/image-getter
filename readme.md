@@ -13,9 +13,9 @@ Response will be a job ID:
 {id: 1}
 ```
 
-Check the status at https://frozen-gorge-36844.herokuapp.com/jobs/<id>/status
+Check the status at https://frozen-gorge-36844.herokuapp.com/jobs/:id/status
 
-View the final results at https://frozen-gorge-36844.herokuapp.com/jobs/</id>/results
+View the final results at https://frozen-gorge-36844.herokuapp.com/jobs/:id/results
 
 ## Design Decisions
 
