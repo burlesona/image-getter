@@ -27,11 +27,16 @@ module ImageGetter
       @worker = Worker.new(items:items,threads:threads,&method(:process_page))
     end
 
-    def validate_url!(url)
-      raise unless URI.regexp =~ url #this detects if a valid url is in the string
-      URI.parse(url) # but this is needed too because strings like "|http://foo.com" will pass the first
+    def valid_url?(url)
+      # the regex detects if a valid url is in the string
+      # but URI.parse is needed too because strings like "|http://foo.com" will pass the first
+      URI.regexp =~ url && URI.parse(url)
     rescue
-      raise ValidationError, "Invalid URL #{url}"
+      false
+    end
+
+    def validate_url!(url)
+      raise ValidationError, "Invalid URL #{url}" unless valid_url?(url)
     end
 
     # Create a Job
@@ -81,8 +86,10 @@ module ImageGetter
         result = scrape_page(page.url)
         page.images = result.images
         result.links.each do |url|
-          page.links << url
-          create_page(page.job, url, parent: page) if page.root?
+          if valid_url?(url)
+            page.links << url
+            create_page(page.job, url, parent: page) if page.root?
+          end
         end
         page.completed!
         # enqueue children (if any) as the final step

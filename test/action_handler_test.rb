@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'lib/action_handler'
+require 'ostruct'
 
 describe ActionHandler do
   class MockWorker
@@ -61,7 +62,7 @@ describe ActionHandler do
     action = ActionHandler.new
     m = MockWorker.new
     action.worker = m
-    p = {mock:"page"}
+    p = OpenStruct.new(id:1)
     action.enqueue_page(p)
     assert m.queue.first == p
   end
